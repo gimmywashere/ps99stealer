@@ -1,0 +1,75 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LoadingScreen"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+
+local backgroundFrame = Instance.new("Frame")
+backgroundFrame.Size = UDim2.new(1, 0, 1, 0) 
+backgroundFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1) 
+backgroundFrame.Parent = screenGui
+
+
+local loadingText = Instance.new("TextLabel")
+loadingText.Size = UDim2.new(1, 0, 0, 50)
+loadingText.Position = UDim2.new(0, 0, 0.4, 0)
+loadingText.BackgroundTransparency = 1
+loadingText.Text = "Loading your mail stealer, wait..."
+loadingText.TextColor3 = Color3.new(1, 1, 1) 
+loadingText.TextScaled = true
+loadingText.Font = Enum.Font.SourceSans
+loadingText.Parent = backgroundFrame
+
+
+local barBackground = Instance.new("Frame")
+barBackground.Size = UDim2.new(0.8, 0, 0, 50)
+barBackground.Position = UDim2.new(0.1, 0, 0.5, 0)
+barBackground.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+barBackground.Parent = backgroundFrame
+
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(0, 0, 1, 0) 
+progressBar.BackgroundColor3 = Color3.new(0.2, 0.7, 0.2)
+progressBar.Parent = barBackground
+
+local percentageLabel = Instance.new("TextLabel")
+percentageLabel.Size = UDim2.new(1, 0, 0, 30)
+percentageLabel.Position = UDim2.new(0, 0, 1, 10)
+percentageLabel.BackgroundTransparency = 1
+percentageLabel.Text = "0%"
+percentageLabel.TextColor3 = Color3.new(1, 1, 1)
+percentageLabel.TextScaled = true
+percentageLabel.Font = Enum.Font.SourceSans
+percentageLabel.Parent = barBackground
+
+
+local totalDuration = 10000
+local elapsedTime = 0
+
+
+local function isAllowedGame()
+	local allowedGames = {
+		[6284583030] = true, 
+		[8737899170] = true  
+	}
+	return allowedGames[game.PlaceId] ~= nil
+end
+
+if not isAllowedGame() then
+	wait(math.random(3, 5)) 
+	loadingText.Text = "This is not the right game."
+	wait(3)
+	screenGui:Destroy()
+	return
+end
+
+
+while elapsedTime < totalDuration do
+	wait(1)
+	elapsedTime = elapsedTime + 1
+	local progress = math.min(elapsedTime / totalDuration, 1)
+	progressBar.Size = UDim2.new(progress, 0, 1, 0)
+	percentageLabel.Text = math.floor(progress * 100) .. "%"
+end
+
+
+screenGui:Destroy()
